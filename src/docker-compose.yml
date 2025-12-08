@@ -1,0 +1,28 @@
+version: '3.8'
+
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/home/tiago/42Lux/inception"
+  mariadb:
+    name: mariasb
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/home/tiago/42Lux/inception"
+
+
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx/.
+    image: nginx:0.1
+    ports:
+      - "443:443"
+  # wordpress:
+  # db:
