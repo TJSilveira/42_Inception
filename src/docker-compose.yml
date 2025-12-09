@@ -7,15 +7,20 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: "/home/tiago/42Lux/inception"
+      device: "/home/tiago/data"
   mariadb:
-    name: mariasb
+    name: mariadb
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: "/home/tiago/42Lux/inception"
+      device: "/home/tiago/data"
 
+networks:
+  nginx-wordpress:
+    driver: bridge
+  worpress-db:
+    driver: bridge
 
 services:
   nginx:
@@ -24,5 +29,17 @@ services:
     image: nginx:0.1
     ports:
       - "443:443"
-  # wordpress:
+    networks:
+      - nginx-wordpress
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - db
+    build: ./requirements/wordpress/.
+    image: wordpress:0.1
+    ports:
+      - "9000:9000"
+    networks:
+      - nginx-wordpress
+      - worpress-db
   # db:
