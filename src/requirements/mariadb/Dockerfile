@@ -1,0 +1,22 @@
+FROM alpine:3.23.0
+
+EXPOSE 3306
+
+# ARG FILENAME="mariadb-12.2.1"
+# ARG EXTENSION="tar.gz"
+
+# ADD https://archive.mariadb.org/${FILENAME}/source/${FILENAME}.${EXTENSION}
+
+RUN	apk add mariadb mariadb-client --no-cache && \
+	mkdir -p /etc/my.cnf.d /var/log/mysql
+
+WORKDIR	/var/lib/mysql
+
+COPY	./tools/entrypoint.sh /entrypoint.sh
+COPY	./conf/docker.cnf /docker.cnf
+COPY	./conf/db_conf.sql /db_conf.sql
+RUN		chmod +x /entrypoint.sh
+
+# ADD ./conf/nginx.conf /etc/nginx/nginx.conf
+
+CMD ["entrypoint.sh"]

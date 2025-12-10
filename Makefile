@@ -9,13 +9,18 @@ wordpress:
 	docker run -it --name wordpress --entrypoint sh tjsilveira/wordpress
 
 clean:
-	docker container prune -f
+	docker volume rm $(shell docker volume ls -q)
 	docker rmi $(IMAGES)
+	docker container prune -f
 
 stop:
 	docker stop wordpress
 	docker stop nginx
 	docker stop db
+
+db:
+	docker build -t tjsilveira/mariadb ./src/requirements/mariadb/.
+	docker run -it --name wordpress --entrypoint sh tjsilveira/mariadb
 
 up:
 	@docker-compose -f ./src/docker-compose.yml up -d

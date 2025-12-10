@@ -7,14 +7,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: "/home/tiago/data"
+      device: "/home/tiago/data/wordpress"
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: "/home/tiago/data"
+      device: "/home/tiago/data/mariadb"
 
 networks:
   network-inception:
@@ -25,8 +25,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx/.
     image: nginx:0.1
-    env_file:
-      - .env
+    env_file: .env
     depends_on:
       - wordpress
     ports:
@@ -38,28 +37,23 @@ services:
     restart: always
   wordpress:
     container_name: wordpress
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     build: ./requirements/wordpress/.
     image: wordpress:0.1
-    env_file:
-      - .env
-    ports:
-      - "9000:9000"
-      - "3306:3306"
+    env_file: .env
     networks:
       - network-inception
     volumes:
       - wordpress:/var/www/html
     restart: always
-  # db:
-  #   container_name: mariadb
-  #   build: ./requirements/mariadb/.
-  #   image: mariadb:0.1
-  #   ports:
-  #     - "3306:3306"
-  #   networks:
-  #     - network-inception
-  #   volumes:
-  #     - mariadb:/var/lib/mysql
-  #   restart: always
+  db:
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    image: mariadb:0.1
+    env_file: .env
+    networks:
+      - network-inception
+    volumes:
+      - mariadb:/var/lib/mysql
+    restart: always
