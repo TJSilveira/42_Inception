@@ -3,11 +3,15 @@ FROM alpine:3.23.0
 EXPOSE 9000
 
 RUN apk update && \
-	apk add --no-cache php85 php85-fpm
+	apk add --no-cache php85 php85-fpm curl
 
-# RUN rc-service php-fpm85 start
-# RUN rc-update add php-fpm85 default
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+	chmod +x wp-cli.phar && \
+	mv wp-cli.phar /usr/local/bin/wp
 
-# ADD ./conf/wordpress.conf /etc/nginx/nginx.conf
+WORKDIR	/var/www/http
 
-CMD ["php-fpm85"]
+COPY	tools/entrypoint.sh /entrypoint.sh
+RUN		chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]

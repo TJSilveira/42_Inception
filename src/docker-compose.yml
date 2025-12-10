@@ -17,9 +17,7 @@ volumes:
       device: "/home/tiago/data"
 
 networks:
-  nginx-wordpress:
-    driver: bridge
-  worpress-db:
+  network-inception:
     driver: bridge
 
 services:
@@ -27,19 +25,41 @@ services:
     container_name: nginx
     build: ./requirements/nginx/.
     image: nginx:0.1
+    env_file:
+      - .env
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     networks:
-      - nginx-wordpress
+      - network-inception
+    volumes:
+      - wordpress:/var/www/html
+    restart: always
   wordpress:
     container_name: wordpress
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     build: ./requirements/wordpress/.
     image: wordpress:0.1
+    env_file:
+      - .env
     ports:
       - "9000:9000"
+      - "3306:3306"
     networks:
-      - nginx-wordpress
-      - worpress-db
+      - network-inception
+    volumes:
+      - wordpress:/var/www/html
+    restart: always
   # db:
+  #   container_name: mariadb
+  #   build: ./requirements/mariadb/.
+  #   image: mariadb:0.1
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - network-inception
+  #   volumes:
+  #     - mariadb:/var/lib/mysql
+  #   restart: always

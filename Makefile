@@ -12,5 +12,10 @@ clean:
 	docker container prune -f
 	docker rmi $(IMAGES)
 
+stop:
+	docker stop wordpress
+	docker stop nginx
+	docker stop db
+
 up:
 	@docker-compose -f ./src/docker-compose.yml up -d
