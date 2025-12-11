@@ -6,17 +6,20 @@ port=3306
 # This will be passed to all MariaDB clients
 [client]
 #password=my_password
+socket=/var/lib/mysql/mysqld.sock
+
 
 # The MariaDB server
 [mysqld]
-data = /var/lib/mysql
-user = mysql
+datadir=/var/lib/mysql
+user=mysql
+socket=/var/lib/mysql/mysqld.sock
 
 # Given that it is inside fo a container and with access only via network,
 # we can let the bidding address empty.	
-bind-address = 0.0.0.0
+bind-address=0.0.0.0
 
-log_error = /var/log/mysql/error.log
+# log_error = /var/log/mysql/error.log
 general_log=1
 slow_query_log=1
 long_query_time=2

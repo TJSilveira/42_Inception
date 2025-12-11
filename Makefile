@@ -8,15 +8,20 @@ wordpress:
 	docker build -t tjsilveira/wordpress ./src/requirements/wordpress/.
 	docker run -it --name wordpress --entrypoint sh tjsilveira/wordpress
 
-clean:
+clean1: 
+	docker container prune -f
 	docker volume rm $(shell docker volume ls -q)
 	docker rmi $(IMAGES)
-	docker container prune -f
+
+clean2: stop clean1 
 
 stop:
 	docker stop wordpress
 	docker stop nginx
-	docker stop db
+	docker stop mariadb
+
+vol_clean:
+	@sudo chown -R $(whoami):$(whoami) /home/tiago/data/mariadb/ && rm -rf /home/tiago/data/mariadb/*
 
 db:
 	docker build -t tjsilveira/mariadb ./src/requirements/mariadb/.

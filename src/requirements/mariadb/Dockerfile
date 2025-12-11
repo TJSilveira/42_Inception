@@ -7,8 +7,7 @@ EXPOSE 3306
 
 # ADD https://archive.mariadb.org/${FILENAME}/source/${FILENAME}.${EXTENSION}
 
-RUN	apk add mariadb mariadb-client --no-cache && \
-	mkdir -p /etc/my.cnf.d /var/log/mysql
+RUN	apk add mariadb mariadb-client --no-cache
 
 WORKDIR	/var/lib/mysql
 
@@ -19,4 +18,4 @@ RUN		chmod +x /entrypoint.sh
 
 # ADD ./conf/nginx.conf /etc/nginx/nginx.conf
 
-CMD ["entrypoint.sh"]
+CMD ["/entrypoint.sh"]

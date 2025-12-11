@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Sets behavior that exits the script if there is some error in the course of the script
 set -e
@@ -18,11 +18,11 @@ if [ ! -f wp-config.php ]; then
 						--admin_user="$WP_ADMIN_USER" \
 						--admin_password="$WP_ADMIN_PASSWORD" \
 						--admin_email="$WP_ADMIN_EMAIL" --skip-email --allow-root
-	wp user create		$WP_USER $WP_USER_EMAIL --user_pass=WP_USER_PASSWORD --allow-root
+	wp user create		$WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD --allow-root
 fi
 
 #	Removes the script as it is no longer needed.
-rm -rf /entrypoint.sh
+# rm -rf /entrypoint.sh
 
-#	Creates PID 1 using daemon mode.
-exec php-fpm85 -D
+#	Creates PID 1 using foreground mode.
+exec php-fpm85 -F
