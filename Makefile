@@ -15,6 +15,9 @@ clean1:
 
 clean2: stop clean1 
 
+clean_images: 
+	docker rmi $(IMAGES)
+
 stop:
 	docker stop wordpress
 	docker stop nginx
@@ -29,3 +32,6 @@ db:
 
 up:
 	@docker-compose -f ./src/docker-compose.yml up -d
+
+down:
+	@docker-compose -f ./src/docker-compose.yml down -v

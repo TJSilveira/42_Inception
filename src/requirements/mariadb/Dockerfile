@@ -13,7 +13,6 @@ WORKDIR	/var/lib/mysql
 
 COPY	./tools/entrypoint.sh /entrypoint.sh
 COPY	./conf/docker.cnf /docker.cnf
-COPY	./conf/db_conf.sql /db_conf.sql
 RUN		chmod +x /entrypoint.sh
 
 # ADD ./conf/nginx.conf /etc/nginx/nginx.conf

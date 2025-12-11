@@ -5,6 +5,8 @@ set -e
 
 cd /var/lib/mysql
 
+rm -rf /etc/my.cnf.d/mariadb-server.cnf
+
 # Create dir to hold the configuration file. If it has no config inside, add it. 
 mkdir -p /etc/my.cnf.d
 if [ -f /docker.cnf ]; then
@@ -23,6 +25,12 @@ if [ ! -d mysql ]; then
 		sleep 2
 	done
 
+	echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';" > /db_conf.sql
+	echo "CREATE DATABASE IF NOT EXISTS $DB_NAME;" >> /db_conf.sql
+	echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" >> /db_conf.sql
+	echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';" >> /db_conf.sql
+	echo "FLUSH PRIVILEGES;" >> /db_conf.sql
+
 	# Run configuration SQL
 	mariadb -u root < /db_conf.sql
 
@@ -33,7 +41,6 @@ fi
 
 #	Removes the script and db_config as they are no longer needed.
 rm -rf /entrypoint.sh
-rm -rf /db_conf.sql
 
 #	Creates PID 1 using daemon mode.
 exec mariadbd --user=mysql --datadir=/var/lib/mysql --bind-address=0.0.0.0
