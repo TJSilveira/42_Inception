@@ -41,6 +41,7 @@ fi
 
 #	Removes the script and db_config as they are no longer needed.
 rm -rf /entrypoint.sh
+rm -rf /db_conf.sql
 
 #	Creates PID 1 using daemon mode.
 exec mariadbd --user=mysql --datadir=/var/lib/mysql --bind-address=0.0.0.0
