@@ -33,7 +33,6 @@ fi
 # Listen to the TCP port 9000
 sed -i 's|listen = .*|listen = 9000|g' /etc/php85/php-fpm.d/www.conf
 
-
 #	Removes the script as it is no longer needed.
 rm -rf /entrypoint.sh
 
