@@ -1,13 +1,3 @@
-# FROM alpine:3.23.0
-
-# RUN apk --update add redis 
-
-# EXPOSE 6379
-
-# COPY	tools/entrypoint.sh /entrypoint.sh
-# RUN		chmod +x /entrypoint.sh
-
-# CMD ["/entrypoint.sh"]
 FROM alpine:3.23.0
 
 RUN apk --update add redis 

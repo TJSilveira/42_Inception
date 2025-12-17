@@ -12,6 +12,10 @@ redis:
 	docker build -t tjsilveira/redis ./src/requirements/bonus/redis/.
 	docker run -it --name redis --entrypoint sh tjsilveira/redis
 
+ftp:
+	docker build -t tjsilveira/ftp ./src/requirements/bonus/ftp/.
+	docker run -it --name ftp --entrypoint sh tjsilveira/ftp
+
 clean1: 
 	docker container prune -f
 	docker volume rm $(shell docker volume ls -q)
