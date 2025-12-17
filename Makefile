@@ -8,6 +8,10 @@ wordpress:
 	docker build -t tjsilveira/wordpress ./src/requirements/wordpress/.
 	docker run -it --name wordpress --entrypoint sh tjsilveira/wordpress
 
+redis:
+	docker build -t tjsilveira/redis ./src/requirements/bonus/redis/.
+	docker run -it --name redis --entrypoint sh tjsilveira/redis
+
 clean1: 
 	docker container prune -f
 	docker volume rm $(shell docker volume ls -q)

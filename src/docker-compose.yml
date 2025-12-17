@@ -39,7 +39,7 @@ services:
     container_name: wordpress
     depends_on:
       - db
-        # condition: service_healthy
+      - redis
     build: ./requirements/wordpress/.
     image: wordpress:0.1
     env_file: .env
@@ -52,14 +52,19 @@ services:
     container_name: mariadb
     build: ./requirements/mariadb/.
     image: mariadb:0.1
-    # healthcheck:
-    #   test: ["CMD", "mariadb", "-e", "SELECT 1"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
     env_file: .env
     networks:
       - network-inception
     volumes:
       - mariadb:/var/lib/mysql
+    restart: always
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis/.
+    image: redis:0.1
+    env_file: .env
+    networks:
+      - network-inception
+    volumes:
+      - wordpress:/var/www/html
     restart: always
