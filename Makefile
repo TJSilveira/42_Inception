@@ -16,6 +16,10 @@ ftp:
 	docker build -t tjsilveira/ftp ./src/requirements/bonus/ftp/.
 	docker run -it --name ftp --entrypoint sh tjsilveira/ftp
 
+adminer:
+	docker build -t tjsilveira/adminer ./src/requirements/bonus/adminer/.
+	docker run -it --name adminer --entrypoint sh tjsilveira/adminer
+
 clean1: 
 	docker container prune -f
 	docker volume rm $(shell docker volume ls -q)

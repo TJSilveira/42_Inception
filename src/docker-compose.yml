@@ -83,3 +83,14 @@ services:
     volumes:
       - wordpress:/var/www/html
     restart: always
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer/.
+    image: adminer:0.1
+    depends_on:
+      - db
+    ports:
+      - "9000:9000"
+    networks:
+      - network-inception
+    restart: always
