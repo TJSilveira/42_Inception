@@ -15,6 +15,8 @@ RUN apk update && \
 	php85-iconv \
     php85-mbstring \
 	php85-ctype \
+	php85-pecl-redis \
+	php85-tokenizer \
 	mysql-client \
 	curl && \
 	ln -s /usr/bin/php85 /usr/bin/php

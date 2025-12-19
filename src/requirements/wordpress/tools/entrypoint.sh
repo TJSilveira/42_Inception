@@ -24,20 +24,20 @@ if [ ! -f wp-config.php ]; then
 						--admin_password="$WP_ADMIN_PASSWORD" \
 						--admin_email="$WP_ADMIN_EMAIL" --skip-email --allow-root
 	wp user create		$WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD --allow-root
-
-
-	# <Bonus> REDIS
-	wp configure set WP_REDIS_HOST redis --allow-root
-	wp configure set WP_REDIS_PORT 6379 --allow-root
-	wp configure set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
-	wp config set WP_REDIS_CLIENT phpredis --allow-root
-	wp plugin install redis-cache --activate --allow-root
-	wp plugin update --all --allow-root
-	wp redis enable --allow-root
-	# </Bonus>
 else
 	echo "Wordpress is already downloaded. Please ensure that the definitions were created correctly."
 fi
+
+# <Bonus> REDIS
+wp config set WP_REDIS_HOST redis --allow-root
+wp config set WP_REDIS_PORT 6379 --allow-root
+wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
+wp config set WP_REDIS_CLIENT phpredis --allow-root
+wp plugin install redis-cache --activate --allow-root
+wp plugin update --all --allow-root
+wp redis enable --allow-root
+# </Bonus>
+
 
 # Listen to the TCP port 9000
 sed -i 's|listen = .*|listen = 9000|g' /etc/php85/php-fpm.d/www.conf
